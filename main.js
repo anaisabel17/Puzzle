@@ -26,9 +26,9 @@ function addEventListeners(){
         
         let actualPosition = searchPosition(token.innerText)
         let emptyPosition = searchPosition('')
-        let movement = nextMovement(actualPosition, emptyPosition)
+        let movement = canItMove(actualPosition, emptyPosition)
 
-        if(movement != 'noMove'){
+        if(movement != false){
             updateMatrix(token.innerText, actualPosition, emptyPosition)
         }
     }))//A cada ficha le agregamos un escuchador para cuando haga click
@@ -72,17 +72,17 @@ function searchPosition(element){
 */
 //Refactorizamos la funcion anterior ya que no usamos los return
 
-function nextMovement(actualPosition, emptyPosition) {
+function canItMove(actualPosition, emptyPosition) {
     if(actualPosition[1] == emptyPosition[1]){
         if(actualPosition[0]-emptyPosition[0] > 1  || actualPosition[0]-emptyPosition[0] < -1){
-            return 'noMove'
+            return false
         }    
     }else if(actualPosition[0] == emptyPosition[0]){
         if(actualPosition[1]-emptyPosition[1] > 1  || actualPosition[1]-emptyPosition[1] < -1){
-            return 'noMove'
+            return false
         }    
     }else{
-        return 'noMove'
+        return false
     }
 }
 
