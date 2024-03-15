@@ -1,15 +1,11 @@
-let matrix = [
-    ['1', '2', '3'],
-    ['4', '5', '6'],
-    ['7', '8', ''],
-]
-
+let matrix = shuffleMatrix()
 let board = document.querySelector('.board'); //Seleccionamos la clase board del html
 
 drawTokens()
 addEventListeners()
 
 function drawTokens(){
+    board.innerHTML = '';
     matrix.forEach(row => row.forEach(element => {
         if(element == ''){
             board.innerHTML += `<div class='empty'>${element}</div>`
@@ -30,6 +26,8 @@ function addEventListeners(){
 
         if(movement != false){
             updateMatrix(token.innerText, actualPosition, emptyPosition)
+            drawTokens()
+            addEventListeners()
         }
     }))//A cada ficha le agregamos un escuchador para cuando haga click
 }
@@ -89,6 +87,28 @@ function canItMove(actualPosition, emptyPosition) {
 function updateMatrix(element, actualPosition, emptyPosition){
     matrix[actualPosition[0]][actualPosition[1]] = ''
     matrix[emptyPosition[0]][emptyPosition[1]] = element
+}
 
-    console.log(matrix)
+function shuffleMatrix(){
+    let shuffleMatrix = [
+        [],
+        [],
+        []
+    ]
+    let array = ['1', '2', '3', '4', '5', '6', '7', '8', ''];
+    let shuffleArray = array.sort(()=> Math.random()-0.5)
+
+    let column = 0;
+    let row = 0;
+
+    shuffleArray.forEach(element => {
+        shuffleMatrix[row].push(element)
+        if(column < 2){
+            column++  
+        }else{
+            column = 0;
+            row++
+        }
+    })
+    return shuffleMatrix;
 }
