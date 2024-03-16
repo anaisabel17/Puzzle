@@ -26,6 +26,16 @@ function addEventListeners(){
 
         if(movement != false){
             updateMatrix(token.innerText, actualPosition, emptyPosition)
+
+            let result = compareMatrix()
+
+            if(result === true){
+                confetti({
+                    particleCount: 150,
+                    spread: 180
+                });
+            }
+
             drawTokens()
             addEventListeners()
         }
@@ -45,31 +55,6 @@ function searchPosition(element){
         return [rowIndex, columIndex]
 }
 
-/*function nextMovement(actualPosition, emptyPosition) {
-    //Calculamos si se mueve para la izquierda, derecha, arriba o abajo
-    if(actualPosition[1] == emptyPosition[1]){
-        if(actualPosition[0]-emptyPosition[0] == -1){
-            return 'down' 
-        }else if(actualPosition[0]-emptyPosition[0] == 1){
-            return 'up'
-        }else{
-            return 'noMove'
-        }
-    }else if(actualPosition[0] == emptyPosition[0]){
-        if(actualPosition[1]-emptyPosition[1] == -1){
-            return 'right'
-        }else if(actualPosition[1]-emptyPosition[1] == 1){
-            return 'left'
-        }else{
-            return 'noMove'
-        }
-    }else{
-        return 'noMove'
-    }
-}
-*/
-//Refactorizamos la funcion anterior ya que no usamos los return
-
 function canItMove(actualPosition, emptyPosition) {
     if(actualPosition[1] == emptyPosition[1]){
         if(actualPosition[0]-emptyPosition[0] > 1  || actualPosition[0]-emptyPosition[0] < -1){
@@ -87,6 +72,28 @@ function canItMove(actualPosition, emptyPosition) {
 function updateMatrix(element, actualPosition, emptyPosition){
     matrix[actualPosition[0]][actualPosition[1]] = ''
     matrix[emptyPosition[0]][emptyPosition[1]] = element
+}
+
+function compareMatrix(){
+    let counter = 0;
+    let finalMatrix = [
+        ['1', '2', '3'],
+        ['4', '5', '6'],
+        ['7', '8', ''],
+    ]
+
+    matrix.forEach((row, indexRow) => {
+        row.forEach((element, indexColum) => {
+            if(element == finalMatrix[indexRow][indexColum]){
+                counter++
+            }
+        })
+    })
+    if (counter == 9){
+        return true
+    }else{
+        return false
+    }
 }
 
 function shuffleMatrix(){
@@ -112,3 +119,4 @@ function shuffleMatrix(){
     })
     return shuffleMatrix;
 }
+
